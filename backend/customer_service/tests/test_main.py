@@ -5,7 +5,7 @@ import time
 
 import pytest
 from app.db import Base, SessionLocal, engine, get_db
-from app.main import PRODUCT_SERVICE_URL, app
+from app.main import app
 from app.models import Customer
 
 from fastapi.testclient import TestClient
