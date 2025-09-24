@@ -2,7 +2,7 @@ name: Orchestrator - CI to Staging and Prod
 
 on:
   push:
-    branches: [ testing ]          # STAGING on push to testing
+    branches: [ dev ]          # STAGING on push to testing
   pull_request:
     branches: [ main ]             # consider PRs into main
     types: [ closed ]              # fire only when PR is closed (we check merged below)

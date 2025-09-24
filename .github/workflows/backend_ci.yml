@@ -4,7 +4,7 @@ name: Backend CI - Test, Build and Push Images to ACR
 on:
   workflow_call: {}
   pull_request:
-    branches: [ main, dev, develop ]
+    branches: [ main, develop ]
 
 
 env:
