@@ -2,7 +2,7 @@ name: Orchestrator - CI to Staging and Prod
 
 on:
   push:
-    branches: [ dev ]          # STAGING on push to testing
+    branches: [ dev ]          # STAGING on push to dev
   pull_request:
     branches: [ main ]             # consider PRs into main
     types: [ closed ]              # fire only when PR is closed (we check merged below)
@@ -13,20 +13,20 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # ===================== STAGING (push to testing) =====================
+  # ===================== STAGING (push to dev) =====================
   backend_ci:
-    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/heads/testing') }}
+    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/heads/dev') }}
     uses: ./.github/workflows/backend_ci.yml
     secrets: inherit
 
   frontend_ci:
-    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/heads/testing') }}
+    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/heads/dev') }}
     needs: backend_ci
     uses: ./.github/workflows/frontend_ci.yml
     secrets: inherit
 
   backend_cd_staging:
-    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/heads/testing') }}
+    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/heads/dev') }}
     needs: [backend_ci, frontend_ci]
     uses: ./.github/workflows/backend-cd.yml
     with:
@@ -34,7 +34,7 @@ jobs:
     secrets: inherit
 
   frontend_cd_staging:
-    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/heads/testing') }}
+    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/heads/dev') }}
     needs: backend_cd_staging
     uses: ./.github/workflows/frontend-cd.yml
     with:
@@ -45,7 +45,7 @@ jobs:
     secrets: inherit
 
   smoke_test_staging:
-    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/heads/testing') }}
+    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/heads/dev') }}
     needs: frontend_cd_staging
     runs-on: ubuntu-latest
     steps:
@@ -64,7 +64,7 @@ jobs:
           curl -fsS "http://$FRONTEND_IP" >/dev/null
 
   teardown_staging:
-    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/heads/testing') }}
+    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/heads/dev') }}
     needs: smoke_test_staging
     runs-on: ubuntu-latest
     steps:
