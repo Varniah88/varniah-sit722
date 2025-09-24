@@ -18,7 +18,7 @@ spec:
         - name: acr-secret
       containers:
       - name: frontend-container
-        image: varniahacr.azurecr.io/frontend:latest
+        image: varniah.azurecr.io/frontend:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 80
