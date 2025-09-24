@@ -1,5 +1,3 @@
-# week05/k8s/frontend.yaml
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,9 +14,11 @@ spec:
       labels:
         app: frontend
     spec:
+      imagePullSecrets:
+        - name: acr-secret
       containers:
       - name: frontend-container
-        image: durgeshsamariya.azurecr.io/week05ex01f:v1
+        image: varniahacr.azurecr.io/frontend:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 80
