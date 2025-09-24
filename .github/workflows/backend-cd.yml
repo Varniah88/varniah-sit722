@@ -22,7 +22,7 @@ permissions:
   contents: read
 
 env:
-  ACR_LOGIN_SERVER: ${{ secrets.AZURE_CONTAINER_REGISTRY }}   # e.g. myacr.azurecr.io
+  ACR_LOGIN_SERVER: ${{ secrets.AZURE_CONTAINER_REGISTRY }}
   K8S_NAMESPACE: ecommerce
 
 
